@@ -56,6 +56,12 @@ pay_method = "bitcoind"
 #lnd_macaroon = "invoice.macaroon"
 #lnd_cert = "tls.cert"
 
+#clightning_host = "127.0.0.1"
+#clightning_rpcport = "8080"
+#clightning_username = "lightning"
+#clightning_password = ""
+
+
 # DO NOT CHANGE THIS TO TRUE UNLESS YOU WANT ALL PAYMENTS TO AUTOMATICALLY
 # BE CONSIDERED AS PAID.
 free_mode = False

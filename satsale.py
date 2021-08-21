@@ -22,7 +22,6 @@ from payments.price_feed import get_btc_value
 from pay import bitcoind
 from pay import lnd
 from gateways import woo_webhook
-from invoice.price_feed import get_btc_value
 from gateways import satsale_webstore
 
 app = Flask(__name__)

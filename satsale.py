@@ -21,6 +21,7 @@ from payments import database
 from payments.price_feed import get_btc_value
 from pay import bitcoind
 from pay import lnd
+from pay import clightning
 from gateways import woo_webhook
 
 app = Flask(__name__)
@@ -248,6 +249,9 @@ def check_payment_status(uuid):
         node = get_node(invoice["method"])
         if invoice["method"] == "lnd":
             conf_paid, unconf_paid = node.check_payment(invoice["rhash"])
+        elif invoice["method"] == "clightning":
+            # Lookup clightning invoice based on label (uuid)
+            conf_paid, unconf_paid = node.check_payment(uuid)
         else:
             conf_paid, unconf_paid = node.check_payment(invoice["address"])
 
@@ -281,6 +285,8 @@ def get_node(payment_method):
         node = bitcoin_node
     elif payment_method == "lnd":
         node = lightning_node
+    elif payment_method == "clightning":
+        node = lightning_node
     else:
         node = None
     return node
@@ -298,7 +304,10 @@ bitcoin_node = bitcoind.btcd()
 print("Connection to bitcoin node successful.")
 if config.pay_method == "lnd":
     lightning_node = lnd.lnd()
-    print("Connection to lightning node successful.")
+    print("Connection to lightning node (lnd) successful.")
+elif config.pay_method == "clightning":
+    lightning_node = clightning.clightning()
+    print("Connection to lightning node (clightning) successful.")
 
 
 if __name__ == "__main__":
